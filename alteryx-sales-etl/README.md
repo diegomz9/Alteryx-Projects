@@ -35,54 +35,37 @@ alteryx-sales-etl/
 │   ├── SuperstoreClean.csv           # Cleaned & enriched transaction data
 │   └── KPI_Summary.xlsx              # Aggregated KPI summary table
 │
-├── screenshots/
-│   └── workflow_overview.png         # Full canvas screenshot
 │
 └── README.md
 ```
  
 ---
  
-## 🔧 Workflow Architecture
+##  Workflow Architecture
+<img width="1919" height="736" alt="image" src="https://github.com/user-attachments/assets/42f3a862-02da-4533-9e7d-7a628e07844f" />
+
  
-The pipeline is structured in **7 phases**, each using purpose-specific Alteryx tools:
+The pipeline is structured in **phases**, each using Alteryx tools.
  
-```
-[INPUT - Superstore]
-    → [SELECT - Fix Types]
-    → [CLEANSE - Nulls & Whitespace]
-    → [FORMULA - Quality Flag]
-    → [DATETIME - Extract Year & Month]
-    → [FORMULA - Business Metrics]
-    → [FILTER - Clean Records]
-         ├── F → [BROWSE - Review Records]          Flagged data stream
-         └── T → [OUTPUT - Clean Dataset]           Clean data stream
-                  → [SUMMARIZE - KPIs by Region & Category]
-                  → [FORMULA - Round Averages]
-                  → [SORT - By Profit Desc]
-                  → [SAMPLE - Top 10 Segments]
-                  → [BROWSE - Top 10 Preview]
-                  → [OUTPUT - KPI Summary]
-```
  
----
- 
-## 🛠️ Tools Used
- 
+##  Tools Used
+
 | Phase | Tool | Purpose |
 |---|---|---|
 | 1. Input | `Input Data` | Load raw CSV (9,994 rows, 21 columns) |
-| 2. Cleanse | `Select` | Fix data types — dates, Postal Code as string |
-| 2. Cleanse | `Data Cleansing` | Remove nulls, trim whitespace |
-| 2. Cleanse | `Formula` | Add `Quality_Flag` column (OK / Review) |
-| 3. Transform | `DateTime` | Extract `Order_Year` and `Order_Month` |
-| 3. Transform | `Formula` | Calculate business metrics (see below) |
-| 4. Filter | `Filter` | Split clean vs. flagged records into two streams |
-| 5. Aggregate | `Summarize` | Group KPIs by Region + Category + Year |
-| 5. Aggregate | `Formula` | Round average values for readability |
-| 6. Rank | `Sort` | Order by Total Profit descending |
-| 6. Rank | `Sample` | Isolate Top 10 performing segments |
-| 7. Output | `Output Data` ×2 | Export clean CSV + KPI Excel file |
+| 2. Parse Dates | `DateTime` ×2 | Parse `Order Date` and `Ship Date` from MM/dd/yyyy format |
+| 3. Cleanse | `Data Cleansing` | Remove nulls and trim whitespace across all fields |
+| 4. Transform | `DateTime` ×2 | Extract `Order_Year` and `Order_Month` from parsed date |
+| 4. Transform | `Formula` | Calculate business KPI fields and `Quality_Flag` |
+| 5. Filter | `Filter` | Split clean (T) vs flagged (F) records into two streams |
+| 5. Filter | `Browse` | flagged review records for inspection |
+| 6a. Path 1 | `Output Data` | Export full clean CSV
+| 6b. Path 2 | `Summarize` | Group by Region, Category, Year - aggregate sales KPI |
+| 6b. Path 2 | `Formula` | Round averaged KPI values |
+| 6b. Path 2 | `Output Data` | Export KPI summary to Excel |
+| 6b. Path 2 | `Sort` | Rank aggregated segments by Total Profit descending |
+| 6b. Path 2 | `Sample` | Isolate Top 10 performing segments |
+| 6b. Path 2 | `Browse` | Preview Top 10 ranked results on canvas |
  
 ---
  
