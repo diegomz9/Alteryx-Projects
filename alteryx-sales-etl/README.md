@@ -20,7 +20,7 @@ A retail company collects transactional sales data across multiple regions, prod
  
 ---
  
-## 📁 Repository Structure
+## Repository Structure
  
 ```
 alteryx-sales-etl/
