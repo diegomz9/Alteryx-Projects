@@ -29,7 +29,7 @@ alteryx-sales-etl/
 │   └── Sales_ETL_Pipeline.yxmd       # Alteryx workflow file
 │
 ├── data/
-│   └── Sample_Superstore.csv         # Source dataset (9,994 rows)
+│   └── Sample - Superstore.csv         # Source dataset (9,994 rows)
 │
 ├── output/
 │   ├── SuperstoreClean.csv           # Cleaned & enriched transaction data
