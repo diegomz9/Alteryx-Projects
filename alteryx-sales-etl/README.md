@@ -33,7 +33,7 @@ alteryx-sales-etl/
 │
 ├── output/
 │   ├── SuperstoreClean.csv           # Cleaned & enriched transaction data
-│   └── KPI_Summary.xlsx              # Aggregated KPI summary table
+│   └── KPI.xlsx              # Aggregated KPI summary table
 │
 │
 └── README.md
